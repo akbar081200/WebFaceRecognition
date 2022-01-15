@@ -52,11 +52,12 @@ def markAttendance(name):
         for i in range(0,len(lines)):
             if name not in nameList:
                 f.writelines(f'{name},{dtDay},{dtHour}\n')
+                break
+            elif lines[i][0] == name and dtDay in dateList:
+                pass    
             elif lines[i][0] == name and dtDay not in dateList:
                 f.writelines(f'{name},{dtDay},{dtHour}\n')
                 break
-            elif lines[i][0] == name and dtDay in dateList:
-                pass
 
 encodeListKnown = findEncodings(images)
 

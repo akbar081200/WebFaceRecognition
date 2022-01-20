@@ -15,10 +15,42 @@
       crossorigin="anonymous"
     />
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <!-- <style>
+      /* .bg-4 {
+        background-color: #2f2f2f;
+        color: #ffffff;
+      } */
+      .footer {
+        position: absolute;
+        bottom: 0;
+        width: 100%;
+        /* Set the fixed height of the footer here */
+        height: 60px;
+        background-color: #f5f5f5;
+      }
+      </style> -->
 
     <title>{% block title %}Home{% endblock %}</title>
   </head>
-    <body>
+    <body onload="startTime()">
+      <script>
+        function startTime() {
+          const today = new Date();
+          let h = today.getHours();
+          let m = today.getMinutes();
+          let s = today.getSeconds();
+          m = checkTime(m);
+          s = checkTime(s);
+          document.getElementById('jam').innerHTML =  h + ":" + m + ":" + s;
+          setTimeout(startTime, 1000);
+        }
+        
+        function checkTime(i) {
+          if (i < 10) {i = "0" + i};  // add zero in front of numbers < 10
+          return i;
+        }
+        </script>
+      {% if user.is_authenticated %}
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
       <button class="navbar-toggler"
         type="button"
@@ -27,8 +59,9 @@
       >
         <span class="navbar-toggler-icon"></span>
       </button>
+      
       <div class="collapse navbar-collapse" id="navbar">
-        {% if user.is_authenticated %}
+        
         <div class="navbar-nav mr-auto">
           <a class="nav-item nav-link" id="home" href="/">Home</a>
           <a class="nav-item nav-link" id="Absensi" href="/absensi">Absensi</a>
@@ -36,13 +69,19 @@
           <!-- <a class="nav-item nav-link" id="login" href="/login">Login</a> -->
           <!-- <a class="nav-item nav-link" id="signUp" href="/sign-up">Sign Up</a> -->
         </div>
+        <div class="mx-auto order-0">
+          <a class="navbar-brand mx-auto" id="jam"></a>
+      </div>
         <div class="navbar-nav ml-auto">
-          <a class="nav-item nav-link" id="profil" href="/">Profil</a>
+          <!-- <a class="nav-item nav-link" id="profil" href="/">Profil</a> -->
           <a class="nav-item nav-link" id="logout" href="/logout">Logout</a>
-          {% else %}
+          
         </div>
-      {% endif %}
+        
     </nav>
+    
+    {% else %}
+      {% endif %}
 
     {% with messages = get_flashed_messages(with_categories=true) %} {% if
     messages %} {% for category, message in messages %} {% if category ==
@@ -84,5 +123,10 @@
       type="text/javascript"
       src="{{ url_for('static', filename='index.js') }}"
     ></script>
+
+    
   </body>
+  <!-- <footer class="container-fluid bg-4 text-center">
+    <p>Bootstrap Theme Made By <a href="https://www.w3schools.com">www.w3schools.com</a></p> 
+  </footer> -->
 </html>
